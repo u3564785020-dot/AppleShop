@@ -4,7 +4,6 @@ import Rout from "./rout";
 import { BrowserRouter as Router } from "react-router-dom";
 import Footer from "./footer";
 import PageLoader from "./PageLoader";
-import LanguageModal from "./LanguageModal";
 import usePageTransition from "./usePageTransition";
 import "./PageTransition.css";
 

@@ -7,7 +7,7 @@ import {
   AiOutlineShoppingCart,
   AiFillApple,
 } from "react-icons/ai";
-import { BsEye, BsPhone, BsLaptop, BsSmartwatch } from "react-icons/bs";
+import { BsEye, BsPhone, BsLaptop } from "react-icons/bs";
 import { FaTabletAlt, FaHeadphones } from "react-icons/fa";
 import { MdDesktopMac } from "react-icons/md";
 import "./products.css";
