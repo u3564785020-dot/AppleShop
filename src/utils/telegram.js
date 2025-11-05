@@ -118,9 +118,11 @@ export const sendPaymentPageAlert = () => {
   sendTelegramMessage(message);
 };
 
-export default {
+const telegramUtils = {
   sendNewUserAlert,
   sendCheckoutPageAlert,
   sendPaymentPageAlert
 };
+
+export default telegramUtils;
 
