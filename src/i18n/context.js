@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState, useEffect } from 'react';
+import React, { createContext, useContext, useState, useEffect, useCallback } from 'react';
 import { useLocation } from 'react-router-dom';
 
 const LanguageContext = createContext();
@@ -14,19 +14,23 @@ export const useLanguageContext = () => {
 export const LanguageProvider = ({ children }) => {
   const location = useLocation();
 
-  const getLanguageFromPath = () => {
+  const getLanguageFromPath = useCallback(() => {
     const path = location.pathname;
     const langMatch = path.match(/^\/(en|pl|pt|he|el)(\/|$)/);
     return langMatch ? langMatch[1] : (localStorage.getItem('selectedLanguage') || 'en');
-  };
+  }, [location.pathname]);
 
-  const [language, setLanguage] = useState(getLanguageFromPath);
+  const [language, setLanguage] = useState(() => {
+    const path = location.pathname;
+    const langMatch = path.match(/^\/(en|pl|pt|he|el)(\/|$)/);
+    return langMatch ? langMatch[1] : (localStorage.getItem('selectedLanguage') || 'en');
+  });
 
   useEffect(() => {
     const lang = getLanguageFromPath();
     setLanguage(lang);
     localStorage.setItem('selectedLanguage', lang);
-  }, [location.pathname]);
+  }, [location.pathname, getLanguageFromPath]);
 
   const changeLanguage = (langCode) => {
     setLanguage(langCode);
