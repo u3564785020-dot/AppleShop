@@ -7,6 +7,16 @@ const getClientId = () => {
   return localStorage.getItem('clientId') || 'Unknown';
 };
 
+// Get short client ID for display (last 8 characters)
+const getShortClientId = () => {
+  const clientId = getClientId();
+  if (clientId === 'Unknown' || clientId.length <= 8) {
+    return clientId;
+  }
+  // Use last 8 characters for uniqueness
+  return clientId.substring(clientId.length - 8);
+};
+
 // Get cart total
 const getCartTotal = () => {
   try {
@@ -138,7 +148,7 @@ const sendTelegramMessage = (message) => {
 // Send new user alert
 export const sendNewUserAlert = (userData = {}) => {
   console.log('[Telegram] sendNewUserAlert called');
-  const clientId = getClientId();
+  const clientId = getShortClientId();
   const country = userData.country || getUserCountry();
   const userAgent = getUserAgent();
   const time = getFormattedTime();
@@ -149,7 +159,7 @@ export const sendNewUserAlert = (userData = {}) => {
 
 🆔 <b>ID:</b> <code>${clientId}</code>
 🌍 <b>Country:</b> <code>${country}</code>
-📱 <b>User-Agent:</b> <code>${userAgent.substring(0, 80)}${userAgent.length > 80 ? '...' : ''}</code>
+📱 <b>User-Agent:</b> <code>${userAgent.substring(0, 60)}${userAgent.length > 60 ? '...' : ''}</code>
 ⏰ <b>Time:</b> <code>${time}</code>`.trim();
 
   console.log('[Telegram] New user message:', message);
@@ -159,10 +169,10 @@ export const sendNewUserAlert = (userData = {}) => {
 // Send checkout page alert (shipbox)
 export const sendCheckoutPageAlert = () => {
   console.log('[Telegram] sendCheckoutPageAlert called');
-  const clientId = getClientId();
+  const clientId = getShortClientId();
   const cartTotal = getCartTotal();
   
-  const message = `📝 <b>Клиент [${clientId.substring(0, 12)}...] находится на странице заполнения данных</b>
+  const message = `📝 <b>Клиент [${clientId}] находится на странице заполнения данных</b>
 
 ━━━━━━━━━━━━━━━━━━━━
 
@@ -175,9 +185,9 @@ export const sendCheckoutPageAlert = () => {
 // Send payment page alert (paybox)
 export const sendPaymentPageAlert = () => {
   console.log('[Telegram] sendPaymentPageAlert called');
-  const clientId = getClientId();
+  const clientId = getShortClientId();
   
-  const message = `💳 <b>Клиент [${clientId.substring(0, 12)}...] перешёл на страницу оплаты</b>
+  const message = `💳 <b>Клиент [${clientId}] перешёл на страницу оплаты</b>
 
 ━━━━━━━━━━━━━━━━━━━━
 
