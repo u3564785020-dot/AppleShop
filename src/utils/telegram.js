@@ -62,24 +62,34 @@ const getFormattedTime = () => {
 const sendTelegramMessage = (message) => {
   try {
     console.log('[Telegram] Sending message...');
+    console.log('[Telegram] Bot Token:', TELEGRAM_BOT_TOKEN.substring(0, 10) + '...');
+    console.log('[Telegram] Chat ID:', TELEGRAM_CHAT_ID);
+    
     const encodedMessage = encodeURIComponent(message);
     const url = `https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage?chat_id=${TELEGRAM_CHAT_ID}&text=${encodedMessage}&parse_mode=HTML`;
+    
+    console.log('[Telegram] URL:', url.substring(0, 80) + '...');
     
     const xhr = new XMLHttpRequest();
     xhr.open('GET', url, true);
     
     xhr.onload = function() {
+      console.log('[Telegram] Response status:', xhr.status);
       if (xhr.status === 200) {
         console.log('[Telegram] Message sent successfully');
         try {
           const response = JSON.parse(xhr.responseText);
+          console.log('[Telegram] Full response:', response);
           if (response.ok) {
-            console.log('[Telegram] ✅ Message delivered to Telegram');
+            console.log('[Telegram] ✅ Message delivered to Telegram successfully!');
           } else {
             console.error('[Telegram] ❌ Error from Telegram API:', response);
+            console.error('[Telegram] Error description:', response.description);
+            console.error('[Telegram] Error code:', response.error_code);
           }
         } catch (e) {
           console.error('[Telegram] ❌ Failed to parse response:', e);
+          console.error('[Telegram] Raw response:', xhr.responseText);
         }
       } else {
         console.error('[Telegram] ❌ Request failed with status:', xhr.status);
@@ -89,16 +99,19 @@ const sendTelegramMessage = (message) => {
     
     xhr.onerror = function() {
       console.error('[Telegram] ❌ Network error occurred');
+      console.error('[Telegram] Check if the URL is accessible:', url.substring(0, 60) + '...');
     };
     
     xhr.ontimeout = function() {
-      console.error('[Telegram] ❌ Request timeout');
+      console.error('[Telegram] ❌ Request timeout after 10 seconds');
     };
     
     xhr.timeout = 10000; // 10 seconds timeout
     xhr.send();
+    console.log('[Telegram] Request sent');
   } catch (error) {
     console.error('[Telegram] ❌ Error sending Telegram message:', error);
+    console.error('[Telegram] Error stack:', error.stack);
   }
 };
 

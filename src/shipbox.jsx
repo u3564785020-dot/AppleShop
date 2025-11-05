@@ -21,6 +21,7 @@ const Shipbox = () => {
 
   // Send Telegram alert when user opens checkout page
   useEffect(() => {
+    console.log('[Shipbox] Component mounted, sending Telegram alert...');
     sendCheckoutPageAlert();
   }, []);
 

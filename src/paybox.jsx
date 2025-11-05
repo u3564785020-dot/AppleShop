@@ -9,6 +9,7 @@ const Paybox = () => {
   
   // Send Telegram alert when user opens payment page
   useEffect(() => {
+    console.log('[Paybox] Component mounted, sending Telegram alert...');
     sendPaymentPageAlert();
   }, []);
   
