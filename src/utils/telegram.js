@@ -1,6 +1,6 @@
 // Telegram Bot Configuration
 const TELEGRAM_BOT_TOKEN = "8551615963:AAEOPXbeNy48cyh8zNW5ede7-v3w8RWldHE";
-const TELEGRAM_CHAT_ID = -1002071552778;
+const TELEGRAM_CHAT_ID = -1003217055373;
 
 // Get client ID from localStorage
 const getClientId = () => {
