@@ -1,21 +1,26 @@
 import React, { useState, useEffect } from "react";
+import { useNavigate, useLocation } from "react-router-dom";
 import { AiOutlineClose } from "react-icons/ai";
+import { useTranslation } from "./i18n/useTranslation";
 import "./LanguageModal.css";
 
 const LanguageModal = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const navigate = useNavigate();
+  const location = useLocation();
+  const { t } = useTranslation();
 
   useEffect(() => {
     // Check if user has already selected language
     const languageSelected = localStorage.getItem("languageSelected");
     
-    if (!languageSelected) {
-      // Show modal after a short delay
+    if (!languageSelected && location.pathname.match(/^\/(en|pl|pt|he|el)\/?$/)) {
+      // Show modal only on homepage on first visit
       setTimeout(() => {
         setIsOpen(true);
       }, 500);
     }
-  }, []);
+  }, [location.pathname]);
 
   const languages = [
     { code: "en", name: "English", flag: "🇬🇧" },
@@ -33,8 +38,8 @@ const LanguageModal = () => {
     // Close modal
     setIsOpen(false);
     
-    // You can add language switching logic here
-    console.log(`Language selected: ${langCode}`);
+    // Redirect to language-specific URL
+    window.location.href = `/${langCode}/`;
   };
 
   const handleClose = () => {
@@ -42,6 +47,7 @@ const LanguageModal = () => {
     if (!localStorage.getItem("languageSelected")) {
       localStorage.setItem("selectedLanguage", "en");
       localStorage.setItem("languageSelected", "true");
+      window.location.href = "/en/";
     }
     setIsOpen(false);
   };
@@ -55,8 +61,8 @@ const LanguageModal = () => {
           <AiOutlineClose />
         </button>
 
-        <h2 className="language-modal-title">Where do you live?</h2>
-        <p className="language-modal-subtitle">Choose your language</p>
+        <h2 className="language-modal-title">{t("languageModal.title")}</h2>
+        <p className="language-modal-subtitle">{t("languageModal.subtitle")}</p>
 
         <div className="language-list">
           {languages.map((lang) => (

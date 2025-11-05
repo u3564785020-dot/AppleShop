@@ -1,10 +1,12 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { LocalizedLink } from "./i18n/LocalizedLink";
+import { useTranslation } from "./i18n/useTranslation";
 import { AiOutlineShoppingCart, AiOutlineClose } from "react-icons/ai";
 import { BsEye } from "react-icons/bs";
 import "./Wishlist.css";
 
 const Wishlist = ({ wishlist, addToWishlist, addtocart, view }) => {
+  const { t } = useTranslation();
   const handleScrollToTop = () => {
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
@@ -13,15 +15,17 @@ const Wishlist = ({ wishlist, addToWishlist, addtocart, view }) => {
     <div className="wishlist-page">
       <div className="wishlist-header">
         <div className="breadcrumbs">
-          <Link to="/" className="breadcrumb-link">Home</Link>
+          <LocalizedLink to="/" className="breadcrumb-link">{t("nav.home")}</LocalizedLink>
           <span className="breadcrumb-separator">/</span>
-          <span className="breadcrumb-current">Wishlist</span>
+          <span className="breadcrumb-current">{t("wishlist.title")}</span>
         </div>
-        <h1 className="wishlist-title">My Wishlist</h1>
+        <h1 className="wishlist-title">{t("wishlist.title")}</h1>
         <p className="wishlist-subtitle">
           {wishlist.length > 0 
-            ? `You have ${wishlist.length} ${wishlist.length === 1 ? 'item' : 'items'} in your wishlist` 
-            : 'Your wishlist is empty'}
+            ? (wishlist.length === 1 
+                ? t("wishlist.subtitle", { count: wishlist.length })
+                : t("wishlist.subtitlePlural", { count: wishlist.length }))
+            : t("wishlist.empty")}
         </p>
       </div>
 
@@ -29,11 +33,11 @@ const Wishlist = ({ wishlist, addToWishlist, addtocart, view }) => {
         {wishlist.length === 0 ? (
           <div className="empty-wishlist">
             <div className="empty-wishlist-icon">❤️</div>
-            <h2>Your Wishlist is Empty</h2>
-            <p>Save your favorite items here to keep track of them</p>
-            <Link to="/product" className="continue-shopping-btn">
-              Continue Shopping
-            </Link>
+            <h2>{t("wishlist.empty")}</h2>
+            <p>{t("wishlist.emptyDesc")}</p>
+            <LocalizedLink to="/product" className="continue-shopping-btn">
+              {t("wishlist.continueShopping")}
+            </LocalizedLink>
           </div>
         ) : (
           <div className="wishlist-grid">
@@ -42,16 +46,16 @@ const Wishlist = ({ wishlist, addToWishlist, addtocart, view }) => {
                 <button 
                   className="remove-btn"
                   onClick={() => addToWishlist(item)}
-                  title="Remove from Wishlist"
+                  title={t("wishlist.removeFromWishlist")}
                 >
                   <AiOutlineClose />
                 </button>
                 
                 {item.Price < 600 && (
-                  <div className="product-badge sale-badge">Sale</div>
+                  <div className="product-badge sale-badge">{t("products.sale")}</div>
                 )}
                 {item.id <= 4 && (
-                  <div className="product-badge new-badge">New</div>
+                  <div className="product-badge new-badge">{t("products.new")}</div>
                 )}
 
                 <div className="wishlist-image">
@@ -83,7 +87,7 @@ const Wishlist = ({ wishlist, addToWishlist, addtocart, view }) => {
                     }}
                   >
                     <AiOutlineShoppingCart />
-                    Add to Cart
+                    {t("products.addToCart")}
                   </button>
                   <button 
                     className="wishlist-action-btn quick-view"
@@ -93,7 +97,7 @@ const Wishlist = ({ wishlist, addToWishlist, addtocart, view }) => {
                     }}
                   >
                     <BsEye />
-                    Quick View
+                    {t("products.view")}
                   </button>
                 </div>
               </div>
@@ -103,11 +107,11 @@ const Wishlist = ({ wishlist, addToWishlist, addtocart, view }) => {
 
         {wishlist.length > 0 && (
           <div className="wishlist-footer">
-            <Link to="/product" className="continue-shopping-link">
-              ← Continue Shopping
-            </Link>
+            <LocalizedLink to="/product" className="continue-shopping-link">
+              ← {t("wishlist.continueShopping")}
+            </LocalizedLink>
             <div className="wishlist-summary">
-              <h3>Total Items: {wishlist.length}</h3>
+              <h3>{t("wishlist.totalItems")}: {wishlist.length}</h3>
               <p>Keep browsing to add more items to your wishlist</p>
             </div>
           </div>

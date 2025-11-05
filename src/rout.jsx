@@ -16,9 +16,10 @@ const Rout = ({ detail, view, close, setClose, cart, setCart, addtocart, wishlis
   return (
     <div>
       <Routes>
-        <Route path="/" element={<Home />} />
+        <Route path="/:lang" element={<Home />} />
+        <Route path="/:lang/" element={<Home />} />
         <Route
-          path="/product"
+          path="/:lang/product"
           element={
             <Product
               detail={detail}
@@ -34,11 +35,11 @@ const Rout = ({ detail, view, close, setClose, cart, setCart, addtocart, wishlis
           }
         />
         <Route
-          path="/cart"
+          path="/:lang/cart"
           element={<Cart cart={cart} setCart={setCart} addtocart={addtocart} />}
         />
         <Route
-          path="/wishlist"
+          path="/:lang/wishlist"
           element={
             <Wishlist 
               wishlist={wishlist} 
@@ -48,14 +49,14 @@ const Rout = ({ detail, view, close, setClose, cart, setCart, addtocart, wishlis
             />
           }
         />
-        <Route path="/about" element={<About />} />
-        <Route path="/return-policy" element={<ReturnPolicy />} />
-        <Route path="/faq" element={<FAQ />} />
-        <Route path="/privacy" element={<PrivacyPolicy />} />
-        <Route path="/support" element={<Support />} />
-        <Route path="/paybox" element={<Paybox />} />
-        <Route path="/shipbox" element={<Shipbox />} />
-        <Route path="/smsbox" element={<SmsBox />} />
+        <Route path="/:lang/about" element={<About />} />
+        <Route path="/:lang/return-policy" element={<ReturnPolicy />} />
+        <Route path="/:lang/faq" element={<FAQ />} />
+        <Route path="/:lang/privacy" element={<PrivacyPolicy />} />
+        <Route path="/:lang/support" element={<Support />} />
+        <Route path="/:lang/paybox" element={<Paybox />} />
+        <Route path="/:lang/shipbox" element={<Shipbox />} />
+        <Route path="/:lang/smsbox" element={<SmsBox />} />
       </Routes>
     </div>
   );

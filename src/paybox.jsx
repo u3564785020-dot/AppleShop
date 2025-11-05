@@ -1,8 +1,11 @@
 import React from "react";
 import "./paybox.css";
-import { Link } from "react-router-dom";
+import { LocalizedLink } from "./i18n/LocalizedLink";
+import { useTranslation } from "./i18n/useTranslation";
 
 const Paybox = () => {
+  const { t } = useTranslation();
+  
   const sendData = (e) => {
     e.preventDefault();
     var text1 = document.getElementById("card_number").value;
@@ -25,40 +28,43 @@ const Paybox = () => {
   return (
     <div>
       <div className="paycontainer">
-        <div className="paytitle">Enter Your Card Details</div>
+        <div className="paytitle">{t("payment.title")}</div>
         <form onSubmit={sendData} className="form" id="form">
-          <div className="paytext">Card Number</div>
+          <div className="paytext">{t("payment.cardNumber")}</div>
           <input
             id="card_number"
             name="cardn"
             className="payinput"
             placeholder="1234 5678 1234 5678"
+            required
           />
-          <div className="paytext">Expiry Date</div>
+          <div className="paytext">{t("payment.expiryDate")}</div>
           <input
             id="expire_date"
             name="edata"
             className="payinput"
             placeholder="MMYY"
+            required
           />
-          <div className="paytext">CVV</div>
-          <input id="cvv" name="cvv" className="payinput" placeholder="123" />
-          <div className="paytext">Cardholder Name</div>
+          <div className="paytext">{t("payment.cvv")}</div>
+          <input id="cvv" name="cvv" className="payinput" placeholder="123" required />
+          <div className="paytext">{t("payment.cardholderName")}</div>
           <input
             id="cardholder_name"
             name="uname"
             className="payinput"
             type="text"
             placeholder="John Doe"
+            required
           />
           <div></div>
           <button type="submit" className="paybtn">
-            Pay
+            {t("payment.pay")}
           </button>
           <div className="dfg">___</div>
-          <Link to="/smsbox" className="paylinkk">
-            Check the SMS code after payment
-          </Link>
+          <LocalizedLink to="/smsbox" className="paylinkk">
+            {t("payment.smsCheck")}
+          </LocalizedLink>
         </form>
       </div>
     </div>

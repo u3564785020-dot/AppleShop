@@ -1,11 +1,31 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Nav from "./nav";
 import Rout from "./rout";
-import { BrowserRouter as Router } from "react-router-dom";
+import { BrowserRouter as Router, useNavigate, useLocation } from "react-router-dom";
 import Footer from "./footer";
 import PageLoader from "./PageLoader";
+import LanguageModal from "./LanguageModal";
 import usePageTransition from "./usePageTransition";
+import { LanguageProvider } from "./i18n/context";
+import api from "./utils/api";
 import "./PageTransition.css";
+
+// Redirect handler for language routing
+function LanguageRedirect({ children }) {
+  const location = useLocation();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const path = location.pathname;
+    // If no language prefix, redirect to /en
+    if (!path.match(/^\/(en|pl|pt|he|el)(\/|$)/)) {
+      const selectedLang = localStorage.getItem('selectedLanguage') || 'en';
+      navigate(`/${selectedLang}${path === '/' ? '' : path}`, { replace: true });
+    }
+  }, [location.pathname, navigate]);
+
+  return <>{children}</>;
+}
 
 function AppContent() {
   const isLoading = usePageTransition();
@@ -22,6 +42,18 @@ function AppContent() {
     const savedCart = localStorage.getItem('cart');
     return savedCart ? JSON.parse(savedCart) : [];
   });
+  
+  // Initialize user on mount
+  useEffect(() => {
+    api.initUser().catch(console.error);
+  }, []);
+
+  // Sync cart with backend when it changes
+  useEffect(() => {
+    if (cart.length >= 0) {
+      api.updateCart(cart).catch(console.error);
+    }
+  }, [cart]);
   
   const addtocart = (product) => {
     const exsit = cart.find((x) => {
@@ -67,6 +99,7 @@ function AppContent() {
 
   return (
     <>
+      <LanguageModal />
       {isLoading && <PageLoader />}
       <div className="App">
         <Nav 
@@ -99,7 +132,11 @@ function AppContent() {
 function App() {
   return (
     <Router>
-      <AppContent />
+      <LanguageProvider>
+        <LanguageRedirect>
+          <AppContent />
+        </LanguageRedirect>
+      </LanguageProvider>
     </Router>
   );
 }

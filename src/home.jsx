@@ -1,5 +1,6 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { LocalizedLink } from "./i18n/LocalizedLink";
+import { useTranslation } from "./i18n/useTranslation";
 import { BsArrowRight } from "react-icons/bs";
 import { FiTruck } from "react-icons/fi";
 import { BsCurrencyDollar } from "react-icons/bs";
@@ -10,9 +11,9 @@ import ProductDetail from "./productdetail";
 import "./home.css";
 
 import imgBg from "./img/iphone.png";
-import LanguageModal from "./LanguageModal";
 
 const Home = () => {
+  const { t } = useTranslation();
   const [email, setEmail] = useState("");
 
   const handleNewsletterSubmit = (e) => {
@@ -51,26 +52,25 @@ const Home = () => {
 
   return (
     <div className="home-page">
-      <LanguageModal />
       {/* Hero Banner */}
       <div className="top-banner">
         <div className="cotainer">
           <div className="detail">
-            <span className="hero-badge">NEW ARRIVAL</span>
+            <span className="hero-badge">{t("home.newArrival")}</span>
             <h2 className="detail-text">
               New <br /> iPhone 15
             </h2>
             <div className="detail-small-text">
-              Order now and get a 70% discount
+              {t("home.orderDiscount")}
             </div>
             <ul className="hero-features">
               <li>✓ A17 Pro Chip</li>
               <li>✓ 48MP Camera</li>
               <li>✓ Titanium Design</li>
             </ul>
-            <Link className="link-shop" to="/product">
-              Shop Now <BsArrowRight className="bsarrow" />
-            </Link>
+            <LocalizedLink className="link-shop" to="/product">
+              {t("home.shopNow")} <BsArrowRight className="bsarrow" />
+            </LocalizedLink>
           </div>
           <div className="img-box">
             <img className="img-iph" src={imgBg} alt="iPhone 15"></img>
@@ -85,32 +85,32 @@ const Home = () => {
             <div className="iconabout">
               <FiTruck />
               <div className="detailabout">
-                <h3>Free Shipping</h3>
-                <p>Order above $1000</p>
+                <h3>{t("home.freeShipping")}</h3>
+                <p>{t("home.freeShippingDesc")}</p>
               </div>
             </div>
 
             <div className="iconabout">
               <HiOutlineReceiptRefund />
               <div className="detailabout">
-                <h3>Return & Refund</h3>
-                <p>Money back Guarantee</p>
+                <h3>{t("home.easyReturn")}</h3>
+                <p>{t("home.easyReturnDesc")}</p>
               </div>
             </div>
 
             <div className="iconabout">
               <BsCurrencyDollar />
               <div className="detailabout">
-                <h3>Member Discount</h3>
-                <p>On every Order</p>
+                <h3>{t("home.easyPayment")}</h3>
+                <p>{t("home.easyPaymentDesc")}</p>
               </div>
             </div>
 
             <div className="iconabout">
               <BiHeadphone />
               <div className="detailabout">
-                <h3>Customer Support</h3>
-                <p>Every time call support</p>
+                <h3>{t("home.support24")}</h3>
+                <p>{t("home.support24Desc")}</p>
               </div>
             </div>
           </div>
@@ -122,22 +122,22 @@ const Home = () => {
         <div className="section-container">
           <div className="section-header">
             <div>
-              <h2 className="section-title">Featured Products</h2>
-              <p className="section-subtitle">Check out our most popular items</p>
+              <h2 className="section-title">{t("home.featuredProducts")}</h2>
+              <p className="section-subtitle">{t("home.featuredProductsSubtitle")}</p>
             </div>
-            <Link to="/product" className="view-all-link">
-              View All Products →
-            </Link>
+            <LocalizedLink to="/product" className="view-all-link">
+              {t("home.viewAll")}
+            </LocalizedLink>
           </div>
 
           <div className="featured-grid">
             {featuredProducts.map((product) => (
               <div className="featured-product-card" key={product.id}>
                 {product.Price < 600 && (
-                  <span className="product-badge sale">Sale</span>
+                  <span className="product-badge sale">{t("products.sale")}</span>
                 )}
                 {product.id <= 4 && (
-                  <span className="product-badge new">New</span>
+                  <span className="product-badge new">{t("products.new")}</span>
                 )}
                 
                 <div className="featured-product-image">
@@ -155,9 +155,9 @@ const Home = () => {
                   </div>
 
                   <div className="product-actions">
-                    <Link to="/product" className="btn-add-cart">
-                      <AiOutlineShoppingCart /> Add to Cart
-                    </Link>
+                    <LocalizedLink to="/product" className="btn-add-cart">
+                      <AiOutlineShoppingCart /> {t("products.addToCart")}
+                    </LocalizedLink>
                   </div>
                 </div>
               </div>
@@ -170,12 +170,12 @@ const Home = () => {
       <section className="special-offer">
         <div className="offer-container">
           <div className="offer-content">
-            <span className="offer-badge">LIMITED TIME OFFER</span>
-            <h2 className="offer-title">Get Up to 70% Off</h2>
-            <p className="offer-text">On selected Apple products. Don't miss out on these amazing deals!</p>
-            <Link to="/product" className="offer-btn">
-              Shop Deals Now
-            </Link>
+            <span className="offer-badge">{t("home.specialOffer")}</span>
+            <h2 className="offer-title">{t("home.specialOfferTitle")}</h2>
+            <p className="offer-text">{t("home.specialOfferDesc")}</p>
+            <LocalizedLink to="/product" className="offer-btn">
+              {t("home.shopNowBtn")}
+            </LocalizedLink>
           </div>
         </div>
       </section>
@@ -183,7 +183,7 @@ const Home = () => {
       {/* Testimonials Section */}
       <section className="testimonials-section">
         <div className="section-container">
-          <h2 className="section-title">What Our Customers Say</h2>
+          <h2 className="section-title">{t("home.testimonials")}</h2>
           <p className="section-subtitle">Trusted by thousands of happy customers</p>
 
           <div className="testimonials-grid">
@@ -209,25 +209,25 @@ const Home = () => {
       <section className="newsletter-section">
         <div className="newsletter-container">
           <div className="newsletter-content">
-            <h2 className="newsletter-title">Subscribe to Our Newsletter</h2>
-            <p className="newsletter-text">Get 10% off your first order and stay updated with the latest deals</p>
+            <h2 className="newsletter-title">{t("home.newsletter")}</h2>
+            <p className="newsletter-text">{t("home.newsletterDesc")}</p>
             
             <form className="newsletter-form" onSubmit={handleNewsletterSubmit}>
               <input 
                 type="email" 
-                placeholder="Enter your email address"
+                placeholder={t("home.newsletterPlaceholder")}
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 required
                 className="newsletter-input"
               />
               <button type="submit" className="newsletter-btn">
-                Subscribe
+                {t("home.newsletterSubscribe")}
               </button>
             </form>
             
             <p className="newsletter-privacy">
-              We respect your privacy. Unsubscribe at any time.
+              {t("home.newsletterPrivacy")}
             </p>
           </div>
         </div>

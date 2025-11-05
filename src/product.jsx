@@ -1,5 +1,6 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { LocalizedLink } from "./i18n/LocalizedLink";
+import { useTranslation } from "./i18n/useTranslation";
 import ProductDetail from "./productdetail";
 import {
   AiOutlineClose,
@@ -13,6 +14,7 @@ import { MdDesktopMac } from "react-icons/md";
 import "./products.css";
 
 const Product = ({ detail, view, close, setClose, addtocart, wishlist, addToWishlist, isInWishlist, search }) => {
+  const { t } = useTranslation();
   const handleScrollToTop = () => {
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
@@ -95,13 +97,13 @@ const Product = ({ detail, view, close, setClose, addtocart, wishlist, addToWish
                         onClick={() => addtocart(curElm)}
                         className="addtocartbtn"
                       >
-                        <Link
+                        <LocalizedLink
                           onClick={() => setClose(false)}
                           className="tocart"
                           to="/cart"
                         >
-                          Add To Cart
-                        </Link>
+                          {t("products.addToCart")}
+                        </LocalizedLink>
                       </button>
                       <div className="pddescrtitle">Specification:</div>
                       <div>
@@ -148,27 +150,27 @@ const Product = ({ detail, view, close, setClose, addtocart, wishlist, addToWish
       <div className="products">
         <div className="products-header">
           <div className="breadcrumbs">
-            <Link to="/" className="breadcrumb-link">Home</Link>
+            <LocalizedLink to="/" className="breadcrumb-link">{t("nav.home")}</LocalizedLink>
             <span className="breadcrumb-separator">/</span>
-            <span className="breadcrumb-current">Products</span>
+            <span className="breadcrumb-current">{t("products.header")}</span>
           </div>
-          <h1 className="products-title">Our Products</h1>
+          <h1 className="products-title">{t("products.header")}</h1>
           <p className="products-subtitle">Discover our premium collection of Apple products</p>
           <div className="products-info">
-            <span className="products-count">Showing {product.length} {product.length === 1 ? 'product' : 'products'}</span>
+            <span className="products-count">{t("products.productsFound", { count: product.length })} {product.length}</span>
           </div>
         </div>
 
         <div className="container">
           <div className="filter">
             <div className="filter-header">
-              <h3>Filter by Category</h3>
-              <button onClick={() => AllProducts()} className="reset-filters">Reset</button>
+              <h3>{t("products.filterBy")}</h3>
+              <button onClick={() => AllProducts()} className="reset-filters">{t("products.apply")}</button>
             </div>
             <ul className="filter-list">
               <li onClick={() => AllProducts()} className="filter-item">
                 <AiFillApple className="filter-icon" />
-                <span>All Products</span>
+                <span>{t("products.categories")}</span>
               </li>
               <li onClick={() => filterproduct("Iphone")} className="filter-item">
                 <BsPhone className="filter-icon" />
@@ -193,12 +195,12 @@ const Product = ({ detail, view, close, setClose, addtocart, wishlist, addToWish
             </ul>
             
             <div className="filter-header" style={{marginTop: '30px'}}>
-              <h3>Price Range</h3>
+              <h3>{t("products.priceRange")}</h3>
             </div>
             <div className="price-filter">
               <div className="price-inputs">
                 <div className="price-input-group">
-                  <label>Min</label>
+                  <label>{t("products.minPrice")}</label>
                   <input 
                     type="number" 
                     value={priceRange[0]} 
@@ -209,7 +211,7 @@ const Product = ({ detail, view, close, setClose, addtocart, wishlist, addToWish
                 </div>
                 <span className="price-separator">-</span>
                 <div className="price-input-group">
-                  <label>Max</label>
+                  <label>{t("products.maxPrice")}</label>
                   <input 
                     type="number" 
                     value={priceRange[1]} 
@@ -219,7 +221,7 @@ const Product = ({ detail, view, close, setClose, addtocart, wishlist, addToWish
                   />
                 </div>
               </div>
-              <button onClick={filterByPrice} className="apply-price-btn">Apply</button>
+              <button onClick={filterByPrice} className="apply-price-btn">{t("products.apply")}</button>
               <div className="price-range-display">
                 ${priceRange[0]} - ${priceRange[1]}
               </div>
@@ -228,16 +230,16 @@ const Product = ({ detail, view, close, setClose, addtocart, wishlist, addToWish
           <div className="productbox">
             <div className="sort-bar">
               <div className="sort-left">
-                <span className="sort-label">Sort by:</span>
+                <span className="sort-label">{t("products.sortBy")}</span>
                 <select 
                   className="sort-select" 
                   value={sortBy} 
                   onChange={(e) => setSortBy(e.target.value)}
                 >
-                  <option value="featured">Featured</option>
-                  <option value="price-low">Price: Low to High</option>
-                  <option value="price-high">Price: High to Low</option>
-                  <option value="name">Name: A-Z</option>
+                  <option value="featured">{t("products.featured")}</option>
+                  <option value="price-low">{t("products.priceLow")}</option>
+                  <option value="price-high">{t("products.priceHigh")}</option>
+                  <option value="name">{t("products.nameAZ")}</option>
                 </select>
               </div>
             </div>
@@ -253,10 +255,10 @@ const Product = ({ detail, view, close, setClose, addtocart, wishlist, addToWish
                 return (
                   <div className="boxproduct" key={curElm.id}>
                     {curElm.Price < 600 && (
-                      <div className="product-badge sale-badge">Sale</div>
+                      <div className="product-badge sale-badge">{t("products.sale")}</div>
                     )}
                     {curElm.id <= 4 && (
-                      <div className="product-badge new-badge">New</div>
+                      <div className="product-badge new-badge">{t("products.new")}</div>
                     )}
                     <div className="imgbox">
                       <img
@@ -272,10 +274,10 @@ const Product = ({ detail, view, close, setClose, addtocart, wishlist, addToWish
                       <button 
                         className="product-action-btn cart-btn"
                         onClick={() => addtocart(curElm)}
-                        title="Add to Cart"
+                        title={t("products.addToCart")}
                       >
                         <AiOutlineShoppingCart />
-                        Add to Cart
+                        {t("products.addToCart")}
                       </button>
                       <button 
                         className="product-action-btn view-btn"
@@ -283,18 +285,18 @@ const Product = ({ detail, view, close, setClose, addtocart, wishlist, addToWish
                           view(curElm);
                           handleScrollToTop();
                         }}
-                        title="Quick View"
+                        title={t("products.view")}
                       >
                         <BsEye />
-                        View
+                        {t("products.view")}
                       </button>
                       <button 
                         className={`product-action-btn wishlist-btn ${isInWishlist && isInWishlist(curElm.id) ? 'active' : ''}`}
                         onClick={() => addToWishlist && addToWishlist(curElm)}
-                        title={isInWishlist && isInWishlist(curElm.id) ? "Remove from Wishlist" : "Add to Wishlist"}
+                        title={isInWishlist && isInWishlist(curElm.id) ? t("products.inWishlist") : t("products.addToWishlist")}
                       >
                         <AiOutlineHeart />
-                        {isInWishlist && isInWishlist(curElm.id) ? 'In Wishlist' : 'Add to Wishlist'}
+                        {isInWishlist && isInWishlist(curElm.id) ? t("products.inWishlist") : t("products.addToWishlist")}
                       </button>
                     </div>
                     <div className="pdetail">

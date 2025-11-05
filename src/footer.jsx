@@ -1,17 +1,20 @@
 import React from "react";
 import "./footer.css";
-import { NavLink } from "react-router-dom";
+import { LocalizedNavLink } from "./i18n/LocalizedNavLink";
+import { useTranslation } from "./i18n/useTranslation";
 import { FaFacebookF, FaTwitter, FaInstagram, FaLinkedinIn } from "react-icons/fa";
 
 const Footer = () => {
+  const { t } = useTranslation();
+  
   return (
     <div>
       <div className="footercontainer">
         <div className="footerbox">
           <div className="kontakkt">
-            <h4>Contact Us</h4>
+            <h4>{t("footer.contactUs")}</h4>
             <div className="kk">+498212684150</div>
-            <div className="kk">techmarket@info.com</div>
+            <div className="kk">appleshop@info.com</div>
             <div className="social-icons">
               <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" className="social-icon">
                 <FaFacebookF />
@@ -28,21 +31,21 @@ const Footer = () => {
             </div>
           </div>
           <div className="kontakkt">
-            <h4>Our Services</h4>
-            <div><NavLink className="kk footer-link" to="/about">About Us</NavLink></div>
-            <div><NavLink className="kk footer-link" to="/return-policy">Return Policy</NavLink></div>
-            <div><NavLink className="kk footer-link" to="/faq">FAQ</NavLink></div>
-            <div><NavLink className="kk footer-link" to="/privacy">Privacy & Policy</NavLink></div>
+            <h4>{t("footer.ourServices")}</h4>
+            <div><LocalizedNavLink className="kk footer-link" to="/about">{t("footer.aboutUs")}</LocalizedNavLink></div>
+            <div><LocalizedNavLink className="kk footer-link" to="/return-policy">{t("footer.returnPolicy")}</LocalizedNavLink></div>
+            <div><LocalizedNavLink className="kk footer-link" to="/faq">{t("footer.faq")}</LocalizedNavLink></div>
+            <div><LocalizedNavLink className="kk footer-link" to="/privacy">{t("footer.privacy")}</LocalizedNavLink></div>
           </div>
           <div className="kontakkt">
-            <h4>Quick Links</h4>
-            <div><NavLink className="kk footer-link" to="/product">All Products</NavLink></div>
-            <div><NavLink className="kk footer-link" to="/support">Support</NavLink></div>
-            <div><NavLink className="kk footer-link" to="/cart">Shopping Cart</NavLink></div>
+            <h4>{t("footer.quickLinks")}</h4>
+            <div><LocalizedNavLink className="kk footer-link" to="/product">{t("footer.allProducts")}</LocalizedNavLink></div>
+            <div><LocalizedNavLink className="kk footer-link" to="/support">{t("nav.support")}</LocalizedNavLink></div>
+            <div><LocalizedNavLink className="kk footer-link" to="/cart">{t("footer.shoppingCart")}</LocalizedNavLink></div>
           </div>
         </div>
         <div className="footer-bottom">
-          <p>&copy; {new Date().getFullYear()} TechMarket. All rights reserved.</p>
+          <p>&copy; {new Date().getFullYear()} AppleShop. {t("footer.rightsReserved")}</p>
         </div>
       </div>
     </div>
