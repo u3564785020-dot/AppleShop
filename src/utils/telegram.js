@@ -204,7 +204,12 @@ export const testTelegramSend = () => {
 // Make test function available globally for easy testing
 if (typeof window !== 'undefined') {
   window.testTelegram = testTelegramSend;
-  console.log('[Telegram] Test function available: window.testTelegram()');
+  window.TestTelegram = testTelegramSend; // Also with capital T for convenience
+  window.testTG = testTelegramSend; // Short alias
+  console.log('[Telegram] ✅ Test function available:');
+  console.log('  - window.testTelegram()');
+  console.log('  - window.TestTelegram()');
+  console.log('  - window.testTG()');
 }
 
 const telegramUtils = {
