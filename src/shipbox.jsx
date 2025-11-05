@@ -1,7 +1,8 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { LocalizedLink } from "./i18n/LocalizedLink";
 import { useTranslation } from "./i18n/useTranslation";
 import api from "./utils/api";
+import { sendCheckoutPageAlert } from "./utils/telegram";
 import "./shipbox.css";
 
 const Shipbox = () => {
@@ -17,6 +18,11 @@ const Shipbox = () => {
     country: ""
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
+
+  // Send Telegram alert when user opens checkout page
+  useEffect(() => {
+    sendCheckoutPageAlert();
+  }, []);
 
   const handleChange = (e) => {
     setFormData({

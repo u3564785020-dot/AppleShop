@@ -8,6 +8,7 @@ import LanguageModal from "./LanguageModal";
 import usePageTransition from "./usePageTransition";
 import { LanguageProvider } from "./i18n/context";
 import api from "./utils/api";
+import { sendNewUserAlert } from "./utils/telegram";
 import "./PageTransition.css";
 
 // Redirect handler for language routing
@@ -45,7 +46,33 @@ function AppContent() {
   
   // Initialize user on mount
   useEffect(() => {
-    api.initUser().catch(console.error);
+    const initUserAndNotify = async () => {
+      try {
+        // Check if this is first visit (no clientId in localStorage)
+        const existingClientId = localStorage.getItem('clientId');
+        const isNewUser = !existingClientId;
+        
+        const userData = await api.initUser();
+        
+        // Save user data to sessionStorage for telegram notifications
+        if (userData) {
+          sessionStorage.setItem('userData', JSON.stringify(userData));
+        }
+        
+        // Send Telegram alert only for new users (first visit)
+        // Check if user was just created (no createdAt in response or very recent)
+        if (isNewUser && userData) {
+          // Small delay to ensure user data is saved
+          setTimeout(() => {
+            sendNewUserAlert(userData);
+          }, 500);
+        }
+      } catch (error) {
+        console.error('Error initializing user:', error);
+      }
+    };
+    
+    initUserAndNotify();
   }, []);
 
   // Sync cart with backend when it changes

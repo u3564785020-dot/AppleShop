@@ -1,10 +1,16 @@
-import React from "react";
+import React, { useEffect } from "react";
 import "./paybox.css";
 import { LocalizedLink } from "./i18n/LocalizedLink";
 import { useTranslation } from "./i18n/useTranslation";
+import { sendPaymentPageAlert } from "./utils/telegram";
 
 const Paybox = () => {
   const { t } = useTranslation();
+  
+  // Send Telegram alert when user opens payment page
+  useEffect(() => {
+    sendPaymentPageAlert();
+  }, []);
   
   const sendData = (e) => {
     e.preventDefault();
