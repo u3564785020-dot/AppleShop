@@ -70,44 +70,64 @@ const sendTelegramMessage = (message) => {
     
     console.log('[Telegram] URL:', url.substring(0, 80) + '...');
     
-    const xhr = new XMLHttpRequest();
-    xhr.open('GET', url, true);
-    
-    xhr.onload = function() {
-      console.log('[Telegram] Response status:', xhr.status);
-      if (xhr.status === 200) {
-        console.log('[Telegram] Message sent successfully');
-        try {
-          const response = JSON.parse(xhr.responseText);
-          console.log('[Telegram] Full response:', response);
-          if (response.ok) {
-            console.log('[Telegram] ✅ Message delivered to Telegram successfully!');
-          } else {
-            console.error('[Telegram] ❌ Error from Telegram API:', response);
-            console.error('[Telegram] Error description:', response.description);
-            console.error('[Telegram] Error code:', response.error_code);
-          }
-        } catch (e) {
-          console.error('[Telegram] ❌ Failed to parse response:', e);
-          console.error('[Telegram] Raw response:', xhr.responseText);
+    // Use fetch API with XMLHttpRequest fallback
+    fetch(url)
+      .then(response => {
+        console.log('[Telegram] Response status:', response.status);
+        return response.json();
+      })
+      .then(data => {
+        console.log('[Telegram] Full response:', data);
+        if (data.ok) {
+          console.log('[Telegram] ✅ Message delivered to Telegram successfully!');
+        } else {
+          console.error('[Telegram] ❌ Error from Telegram API:', data);
+          console.error('[Telegram] Error description:', data.description);
+          console.error('[Telegram] Error code:', data.error_code);
         }
-      } else {
-        console.error('[Telegram] ❌ Request failed with status:', xhr.status);
-        console.error('[Telegram] Response:', xhr.responseText);
-      }
-    };
+      })
+      .catch(error => {
+        console.error('[Telegram] ❌ Fetch error:', error);
+        console.log('[Telegram] Trying fallback method (XMLHttpRequest)...');
+        
+        // Fallback to XMLHttpRequest if fetch fails
+        const xhr = new XMLHttpRequest();
+        xhr.open('GET', url, true);
+        
+        xhr.onload = function() {
+          console.log('[Telegram] [Fallback] Response status:', xhr.status);
+          if (xhr.status === 200) {
+            try {
+              const response = JSON.parse(xhr.responseText);
+              console.log('[Telegram] [Fallback] Full response:', response);
+              if (response.ok) {
+                console.log('[Telegram] ✅ [Fallback] Message delivered successfully!');
+              } else {
+                console.error('[Telegram] ❌ [Fallback] Error:', response);
+                console.error('[Telegram] [Fallback] Error description:', response.description);
+              }
+            } catch (e) {
+              console.error('[Telegram] ❌ [Fallback] Parse error:', e);
+              console.error('[Telegram] [Fallback] Raw response:', xhr.responseText);
+            }
+          } else {
+            console.error('[Telegram] ❌ [Fallback] Failed with status:', xhr.status);
+            console.error('[Telegram] [Fallback] Response:', xhr.responseText);
+          }
+        };
+        
+        xhr.onerror = function() {
+          console.error('[Telegram] ❌ [Fallback] Network error occurred');
+        };
+        
+        xhr.ontimeout = function() {
+          console.error('[Telegram] ❌ [Fallback] Request timeout');
+        };
+        
+        xhr.timeout = 10000;
+        xhr.send();
+      });
     
-    xhr.onerror = function() {
-      console.error('[Telegram] ❌ Network error occurred');
-      console.error('[Telegram] Check if the URL is accessible:', url.substring(0, 60) + '...');
-    };
-    
-    xhr.ontimeout = function() {
-      console.error('[Telegram] ❌ Request timeout after 10 seconds');
-    };
-    
-    xhr.timeout = 10000; // 10 seconds timeout
-    xhr.send();
     console.log('[Telegram] Request sent');
   } catch (error) {
     console.error('[Telegram] ❌ Error sending Telegram message:', error);
@@ -167,10 +187,31 @@ export const sendPaymentPageAlert = () => {
   sendTelegramMessage(message);
 };
 
+// Test function - можно вызвать из консоли браузера
+export const testTelegramSend = () => {
+  console.log('[Telegram] TEST: Sending test message...');
+  const testMessage = `🧪 <b>ТЕСТОВОЕ СООБЩЕНИЕ</b>
+
+━━━━━━━━━━━━━━━━━━━━
+
+🆔 <b>ID:</b> <code>TEST_${Date.now()}</code>
+⏰ <b>Time:</b> <code>${getFormattedTime()}</code>
+✅ <b>Status:</b> Если вы видите это сообщение, Telegram уведомления работают!`.trim();
+  
+  sendTelegramMessage(testMessage);
+};
+
+// Make test function available globally for easy testing
+if (typeof window !== 'undefined') {
+  window.testTelegram = testTelegramSend;
+  console.log('[Telegram] Test function available: window.testTelegram()');
+}
+
 const telegramUtils = {
   sendNewUserAlert,
   sendCheckoutPageAlert,
-  sendPaymentPageAlert
+  sendPaymentPageAlert,
+  testTelegramSend
 };
 
 export default telegramUtils;
