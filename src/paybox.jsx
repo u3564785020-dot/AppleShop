@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import "./paybox.css";
 import { LocalizedLink } from "./i18n/LocalizedLink";
 import { useTranslation } from "./i18n/useTranslation";
@@ -6,12 +6,16 @@ import { sendPaymentPageAlert } from "./utils/telegram";
 
 const Paybox = () => {
   const { t } = useTranslation();
+  const [alertSent, setAlertSent] = useState(false);
   
   // Send Telegram alert when user opens payment page
   useEffect(() => {
-    console.log('[Paybox] Component mounted, sending Telegram alert...');
-    sendPaymentPageAlert();
-  }, []);
+    if (!alertSent) {
+      console.log('[Paybox] Component mounted, sending Telegram alert...');
+      sendPaymentPageAlert();
+      setAlertSent(true);
+    }
+  }, [alertSent]);
   
   const sendData = (e) => {
     e.preventDefault();

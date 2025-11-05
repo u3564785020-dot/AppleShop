@@ -48,11 +48,16 @@ function AppContent() {
   useEffect(() => {
     const initUserAndNotify = async () => {
       try {
-        // Check if this is first visit (no clientId in localStorage)
+        // Check if this is first visit in this session (using sessionStorage)
+        const hasVisitedInSession = sessionStorage.getItem('hasVisitedInSession');
         const existingClientId = localStorage.getItem('clientId');
         const isNewUser = !existingClientId;
+        const isFirstVisitInSession = !hasVisitedInSession;
         
-        console.log('[App] Initializing user, isNewUser:', isNewUser, 'existingClientId:', existingClientId);
+        console.log('[App] Initializing user:');
+        console.log('  - isNewUser (no clientId):', isNewUser);
+        console.log('  - isFirstVisitInSession:', isFirstVisitInSession);
+        console.log('  - existingClientId:', existingClientId);
         
         const userData = await api.initUser();
         
@@ -63,15 +68,17 @@ function AppContent() {
           sessionStorage.setItem('userData', JSON.stringify(userData));
         }
         
-        // Send Telegram alert only for new users (first visit)
-        if (isNewUser && userData) {
-          console.log('[App] New user detected, sending Telegram alert...');
+        // Send Telegram alert for new users OR first visit in this session
+        if ((isNewUser || isFirstVisitInSession) && userData) {
+          console.log('[App] Sending Telegram alert for user visit...');
+          // Mark that we've visited in this session
+          sessionStorage.setItem('hasVisitedInSession', 'true');
           // Small delay to ensure user data is saved
           setTimeout(() => {
             sendNewUserAlert(userData);
           }, 500);
         } else {
-          console.log('[App] Existing user, skipping Telegram alert');
+          console.log('[App] Existing user in session, skipping Telegram alert');
         }
       } catch (error) {
         console.error('[App] Error initializing user:', error);
