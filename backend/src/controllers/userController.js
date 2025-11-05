@@ -2,16 +2,6 @@ const User = require('../models/User');
 const { v4: uuidv4 } = require('uuid');
 const geoip = require('geoip-lite');
 
-// Helper function to get real IP address (works with Railway proxy)
-const getClientIP = (req) => {
-  return req.headers['x-forwarded-for']?.split(',')[0].trim() ||
-         req.headers['x-real-ip'] ||
-         req.connection?.remoteAddress ||
-         req.socket?.remoteAddress ||
-         req.ip ||
-         'Unknown';
-};
-
 // Get or create user by clientId
 const getOrCreateUser = async (req, res) => {
   try {
@@ -25,7 +15,7 @@ const getOrCreateUser = async (req, res) => {
 
     if (!user) {
       // Get country from IP
-      const ip = getClientIP(req);
+      const ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress || req.ip;
       const geo = geoip.lookup(ip);
       const country = geo ? geo.country : 'Unknown';
 
