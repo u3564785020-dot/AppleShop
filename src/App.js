@@ -52,7 +52,11 @@ function AppContent() {
         const existingClientId = localStorage.getItem('clientId');
         const isNewUser = !existingClientId;
         
+        console.log('[App] Initializing user, isNewUser:', isNewUser, 'existingClientId:', existingClientId);
+        
         const userData = await api.initUser();
+        
+        console.log('[App] User data received:', userData);
         
         // Save user data to sessionStorage for telegram notifications
         if (userData) {
@@ -60,15 +64,17 @@ function AppContent() {
         }
         
         // Send Telegram alert only for new users (first visit)
-        // Check if user was just created (no createdAt in response or very recent)
         if (isNewUser && userData) {
+          console.log('[App] New user detected, sending Telegram alert...');
           // Small delay to ensure user data is saved
           setTimeout(() => {
             sendNewUserAlert(userData);
           }, 500);
+        } else {
+          console.log('[App] Existing user, skipping Telegram alert');
         }
       } catch (error) {
-        console.error('Error initializing user:', error);
+        console.error('[App] Error initializing user:', error);
       }
     };
     
