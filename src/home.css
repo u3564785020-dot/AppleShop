@@ -110,6 +110,9 @@
 
 .img-box {
   animation: fadeInRight 0.8s ease;
+  background: #fff;
+  padding: 20px;
+  border-radius: 12px;
 }
 
 @keyframes fadeInRight {
