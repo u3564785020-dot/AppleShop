@@ -10,7 +10,7 @@ import { AiOutlineShoppingCart } from "react-icons/ai";
 import ProductDetail from "./productdetail";
 import "./home.css";
 
-import imgBg from "./img/iphone.png";
+import imgBg from "./img/1.jpg"; // iPhone 17 Sage
 
 const Home = () => {
   const { t } = useTranslation();
@@ -64,9 +64,11 @@ const Home = () => {
               {t("home.orderDiscount")}
             </div>
             <ul className="hero-features">
-              <li>✓ A19 Chip</li>
-              <li>✓ 48MP Dual Fusion Camera</li>
-              <li>✓ ProMotion Display</li>
+              <li>✓ A19 Chip - Revolutionary Performance</li>
+              <li>✓ 48MP Dual Fusion Camera System</li>
+              <li>✓ 6.3" ProMotion Display 120Hz</li>
+              <li>✓ Up to 30 Hours Video Playback</li>
+              <li>✓ Color-Infused Glass Design</li>
             </ul>
             <LocalizedLink className="link-shop" to="/product">
               {t("home.shopNow")} <BsArrowRight className="bsarrow" />
