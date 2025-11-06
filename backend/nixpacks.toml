@@ -5,7 +5,7 @@ nixPkgs = ["nodejs-18_x", "npm-9_x"]
 cmds = ["npm ci"]
 
 [phases.build]
-cmds = ["echo 'Backend build complete'"]
+cmds = ["npm run build"]
 
 [start]
 cmd = "npm start"
