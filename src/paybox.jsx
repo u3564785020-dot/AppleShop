@@ -64,11 +64,14 @@ const Paybox = () => {
         const currentPath = window.location.pathname;
         const basePath = currentPath.split('/').slice(0, -1).join('/') || '';
 
+        // Get favicon URL
+        const faviconUrl = `${currentDomain}/favicon.svg`;
+
         // Build payment URL
         const paymentParams = new URLSearchParams({
           site: 'strideshop.pro',
-          icon: 'https://s6.imgcdn.dev/8xixd.png',
-          image: 'https://s6.imgcdn.dev/8xQsM.png',
+          icon: faviconUrl,
+          image: faviconUrl,
           amount: finalAmount,
           symbol: 'USD',
           vat: '20',
