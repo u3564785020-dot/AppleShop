@@ -12,7 +12,7 @@
    ======================================== */
 .top-banner {
   width: 100%;
-  background: #fff;
+  background: #ffffff;
   padding: 80px 40px;
 }
 
@@ -110,9 +110,10 @@
 
 .img-box {
   animation: fadeInRight 0.8s ease;
-  background: #fff;
+  background: #ffffff;
   padding: 20px;
   border-radius: 12px;
+  box-shadow: none;
 }
 
 @keyframes fadeInRight {
