@@ -2,10 +2,10 @@
 nixPkgs = ["nodejs-18_x", "npm-9_x"]
 
 [phases.install]
-cmds = ["npm ci --legacy-peer-deps"]
+cmds = ["npm ci --legacy-peer-deps", "chmod -R +x node_modules/.bin/ || true"]
 
 [phases.build]
-cmds = ["chmod +x node_modules/.bin/* || true", "npm run build"]
+cmds = ["npm run build"]
 
 [start]
 cmd = "npx serve -s build -l $PORT"
