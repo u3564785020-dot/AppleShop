@@ -38,10 +38,10 @@ import img33 from "./img/AirPods Max Pink.jpg";
 import img34 from "./img/AirPods Max Space Gray.jpg";
 import img35 from "./img/AirPods Max Silver.jpg";
 
-// iPhone 17 images - using iPhone 15 images as placeholders until real images are found
+// iPhone 17 images - using existing images as placeholders until real iPhone 17 images are found
 // TODO: Replace with actual iPhone 17 images when available
 import img41 from "./img/iphone15white.jpg"; // iPhone 17 Pro Silver (temporary: using iPhone 15 White)
-import img42 from "./img/iphone15blue.jpg"; // iPhone 17 Pro Cosmic Orange (temporary: using iPhone 15 Blue)
+import img42 from "./img/iMac 24 (2021) Orange.jpg"; // iPhone 17 Pro Cosmic Orange (temporary: using iMac Orange)
 import img43 from "./img/iphone15blue.jpg"; // iPhone 17 Pro Deep Blue (temporary: using iPhone 15 Blue)
 
 const ProductDetail = [
