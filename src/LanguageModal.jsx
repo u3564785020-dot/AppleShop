@@ -1,12 +1,11 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate, useLocation } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import { AiOutlineClose } from "react-icons/ai";
 import { useTranslation } from "./i18n/useTranslation";
 import "./LanguageModal.css";
 
 const LanguageModal = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const navigate = useNavigate();
   const location = useLocation();
   const { t } = useTranslation();
 
