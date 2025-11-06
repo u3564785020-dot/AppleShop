@@ -10,7 +10,7 @@ import { AiOutlineShoppingCart } from "react-icons/ai";
 import ProductDetail from "./productdetail";
 import "./home.css";
 
-import imgBg from "./img/1.jpg"; // iPhone 17 Sage
+import imgBg from "./img/av.jpg"; // iPhone 17 promotional image
 import avatarImg from "./img/av.jpg"; // User avatar
 
 const Home = () => {
