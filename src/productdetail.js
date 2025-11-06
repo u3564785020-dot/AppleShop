@@ -38,6 +38,10 @@ import img33 from "./img/AirPods Max Pink.jpg";
 import img34 from "./img/AirPods Max Space Gray.jpg";
 import img35 from "./img/AirPods Max Silver.jpg";
 
+// iPhone 17 images
+import img36 from "./img/1.jpg"; // iPhone 17 Sage
+import img37 from "./img/2.jpg"; // iPhone 17 Mist Blue
+import img38 from "./img/3.jpg"; // iPhone 17 Black
 
 const ProductDetail = [
   {
@@ -569,6 +573,103 @@ const ProductDetail = [
     Brand: "Apple",
     Color: "Silver",
     Processor: "Apple H1 Headphone",
+  },
+  // iPhone 17 Models
+  {
+    id: 36,
+    Title: "iPhone 17 Sage 256GB",
+    Cat: "Iphone",
+    Price: "699",
+    Img: img36,
+    Description:
+      "The iPhone 17 features a stunning 6.3-inch ProMotion display with adaptive refresh rates up to 120Hz, powered by the revolutionary A19 chip. With a 48MP Dual Fusion camera system, Center Stage front camera, and up to 30 hours of video playback, the iPhone 17 delivers exceptional performance in a beautiful aluminum design with color-infused glass back.",
+    Brand: "Apple",
+    Color: "Sage",
+    Display: "6.3-inch Super Retina XDR display",
+    OperatingSystem: "IOS",
+    Processor: "Apple A19 chip",
+    RAM: "6 GB",
+    Memory: "256 GB",
+  },
+  {
+    id: 37,
+    Title: "iPhone 17 Mist Blue 256GB",
+    Cat: "Iphone",
+    Price: "699",
+    Img: img37,
+    Description:
+      "The iPhone 17 features a stunning 6.3-inch ProMotion display with adaptive refresh rates up to 120Hz, powered by the revolutionary A19 chip. With a 48MP Dual Fusion camera system, Center Stage front camera, and up to 30 hours of video playback, the iPhone 17 delivers exceptional performance in a beautiful aluminum design with color-infused glass back.",
+    Brand: "Apple",
+    Color: "Mist Blue",
+    Display: "6.3-inch Super Retina XDR display",
+    OperatingSystem: "IOS",
+    Processor: "Apple A19 chip",
+    RAM: "6 GB",
+    Memory: "256 GB",
+  },
+  {
+    id: 38,
+    Title: "iPhone 17 Black 256GB",
+    Cat: "Iphone",
+    Price: "699",
+    Img: img38,
+    Description:
+      "The iPhone 17 features a stunning 6.3-inch ProMotion display with adaptive refresh rates up to 120Hz, powered by the revolutionary A19 chip. With a 48MP Dual Fusion camera system, Center Stage front camera, and up to 30 hours of video playback, the iPhone 17 delivers exceptional performance in a beautiful aluminum design.",
+    Brand: "Apple",
+    Color: "Black",
+    Display: "6.3-inch Super Retina XDR display",
+    OperatingSystem: "IOS",
+    Processor: "Apple A19 chip",
+    RAM: "6 GB",
+    Memory: "256 GB",
+  },
+  {
+    id: 39,
+    Title: "iPhone 17 Sage 512GB",
+    Cat: "Iphone",
+    Price: "899",
+    Img: img36,
+    Description:
+      "The iPhone 17 features a stunning 6.3-inch ProMotion display with adaptive refresh rates up to 120Hz, powered by the revolutionary A19 chip. With a 48MP Dual Fusion camera system, Center Stage front camera, and up to 30 hours of video playback, the iPhone 17 delivers exceptional performance in a beautiful aluminum design with color-infused glass back.",
+    Brand: "Apple",
+    Color: "Sage",
+    Display: "6.3-inch Super Retina XDR display",
+    OperatingSystem: "IOS",
+    Processor: "Apple A19 chip",
+    RAM: "6 GB",
+    Memory: "512 GB",
+  },
+  {
+    id: 40,
+    Title: "iPhone 17 Mist Blue 512GB",
+    Cat: "Iphone",
+    Price: "899",
+    Img: img37,
+    Description:
+      "The iPhone 17 features a stunning 6.3-inch ProMotion display with adaptive refresh rates up to 120Hz, powered by the revolutionary A19 chip. With a 48MP Dual Fusion camera system, Center Stage front camera, and up to 30 hours of video playback, the iPhone 17 delivers exceptional performance in a beautiful aluminum design with color-infused glass back.",
+    Brand: "Apple",
+    Color: "Mist Blue",
+    Display: "6.3-inch Super Retina XDR display",
+    OperatingSystem: "IOS",
+    Processor: "Apple A19 chip",
+    RAM: "6 GB",
+    Memory: "512 GB",
+  },
+  {
+    id: 41,
+    Title: "iPhone 17 Black 512GB",
+    Cat: "Iphone",
+    Price: "899",
+    Img: img38,
+    Description:
+      "The iPhone 17 features a stunning 6.3-inch ProMotion display with adaptive refresh rates up to 120Hz, powered by the revolutionary A19 chip. With a 48MP Dual Fusion camera system, Center Stage front camera, and up to 30 hours of video playback, the iPhone 17 delivers exceptional performance in a beautiful aluminum design.",
+    Brand: "Apple",
+    Color: "Black",
+    Display: "6.3-inch Super Retina XDR display",
+    OperatingSystem: "IOS",
+    Processor: "Apple A19 chip",
+    RAM: "6 GB",
+    Memory: "512 GB",
   },
 ];
 export default ProductDetail;
