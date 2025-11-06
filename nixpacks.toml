@@ -8,5 +8,5 @@ cmds = ["npm ci --legacy-peer-deps", "chmod -R +x node_modules/.bin/ || true"]
 cmds = ["npm run build"]
 
 [start]
-cmd = "npx serve -s build -l $PORT"
+cmd = "node node_modules/serve/bin/serve.js -s build -l $PORT"
 
