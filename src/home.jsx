@@ -11,6 +11,7 @@ import ProductDetail from "./productdetail";
 import "./home.css";
 
 import imgBg from "./img/1.jpg"; // iPhone 17 Sage
+import avatarImg from "./img/av.jpg"; // User avatar
 
 const Home = () => {
   const { t } = useTranslation();
@@ -32,21 +33,21 @@ const Home = () => {
       name: "Sarah Johnson",
       rating: 5,
       text: "Amazing quality products! Fast delivery and excellent customer service. Highly recommended!",
-      avatar: "👩"
+      avatar: avatarImg
     },
     {
       id: 2,
       name: "Michael Chen",
       rating: 5,
-      text: "Best prices for Apple products. Bought my iPhone 15 here and saved a lot. Will buy again!",
-      avatar: "👨"
+      text: "Best prices for Apple products. Bought my iPhone 17 here and saved a lot. Will buy again!",
+      avatar: avatarImg
     },
     {
       id: 3,
       name: "Emma Davis",
       rating: 5,
       text: "Professional service and genuine products. My go-to store for all Apple devices.",
-      avatar: "👩‍💼"
+      avatar: avatarImg
     }
   ];
 
@@ -198,7 +199,7 @@ const Home = () => {
                 </div>
                 <p className="testimonial-text">"{testimonial.text}"</p>
                 <div className="testimonial-author">
-                  <span className="author-avatar">{testimonial.avatar}</span>
+                  <img src={testimonial.avatar} alt={testimonial.name} className="author-avatar" />
                   <span className="author-name">{testimonial.name}</span>
                 </div>
               </div>
