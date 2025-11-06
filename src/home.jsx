@@ -58,22 +58,22 @@ const Home = () => {
           <div className="detail">
             <span className="hero-badge">{t("home.newArrival")}</span>
             <h2 className="detail-text">
-              New <br /> iPhone 15
+              New <br /> iPhone 17
             </h2>
             <div className="detail-small-text">
               {t("home.orderDiscount")}
             </div>
             <ul className="hero-features">
-              <li>✓ A17 Pro Chip</li>
-              <li>✓ 48MP Camera</li>
-              <li>✓ Titanium Design</li>
+              <li>✓ A19 Chip</li>
+              <li>✓ 48MP Dual Fusion Camera</li>
+              <li>✓ ProMotion Display</li>
             </ul>
             <LocalizedLink className="link-shop" to="/product">
               {t("home.shopNow")} <BsArrowRight className="bsarrow" />
             </LocalizedLink>
           </div>
           <div className="img-box">
-            <img className="img-iph" src={imgBg} alt="iPhone 15"></img>
+            <img className="img-iph" src={imgBg} alt="iPhone 17"></img>
           </div>
         </div>
       </div>
